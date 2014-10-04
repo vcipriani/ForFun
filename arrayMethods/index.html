@@ -1,0 +1,39 @@
+
+<!--Typical mocha test suite however I modified it to accept a user entered string and run the test -->
+
+
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Mocha Tests</title>
+  <link rel="stylesheet" href="../3rdParty/mocha-master/mocha.css" />
+</head>
+<body>
+
+  <form>
+  Enter your own array (include the braces) </br>
+    <input type="text" name="arr" id="userArr">
+  <button type="button" id="run">Run test</button>
+  </form>
+    
+  <div id="mocha"></div>
+  <script src="../3rdParty/chai.js"></script>
+  <script src="../3rdParty/mocha-master/mocha.js"></script>
+  <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+  <script src="arrays.js"></script>  
+  <script>mocha.setup('bdd')</script>
+  <script src="test.array.js"></script>
+  <script>
+    mocha.checkLeaks();
+    mocha.run();
+        
+      $("#run").click(function (){
+          userEntered = JSON.parse($('#userArr').val());
+          $("#mocha").html("")
+          mocha.run();
+      })
+  </script>
+    
+
+</body>
+</html>

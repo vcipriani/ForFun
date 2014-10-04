@@ -1,0 +1,2 @@
+
+I recreated some of the Array methods and created a test to verify that my methods match the original methods output (used mocha and chai for test).  I still need to incorporate the optional this parameter and error handling for unexpected inputs
