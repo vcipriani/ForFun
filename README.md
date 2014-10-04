@@ -6,7 +6,7 @@ This is the repository where I'm going to put my practice projects and toy probl
 
 *  **arrayMethods** - here I replicated the Array methods map, filter, reduce & each and wrote a mocha test suite to confirm that they return the same results as the original methods  
 
-*  **kaprekarsConstant** - I just happened to read about Kaprekar's Constant the other.  Kaprekar was a mathematician who discovered that by performing two simple steps, almost any 4 digit number can be altered to equal 6174 (within 7 step iterations).  Recreating this seemed like a perfect opportunity to practice functional programming.  This app includes:  
+*  **kaprekarsConstant** - I just happened to read about Kaprekar's Constant the other day.  Kaprekar was a mathematician who discovered that by performing two simple steps, almost any 4 digit number can be altered to equal 6174 (within 7 step iterations).  Recreating this seemed like good functional programming  practice.  It turned out to be a perfect opportunity to practice everything.  This app includes:  
     *  Callbacks  
     *  Closures  
     *  Recursion  
