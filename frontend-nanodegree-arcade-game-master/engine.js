@@ -22,7 +22,7 @@ var Engine = (function(global) {
     };
 
     function init() {
-        allEnemies = generateEnemies(1);
+        allEnemies = generateEnemies(3);
         player = new Player();
         reset();
         lastTime = Date.now();
@@ -36,9 +36,9 @@ var Engine = (function(global) {
 
     function updateEntities(dt) {
         allEnemies.forEach(function(enemy) {
-            enemy.update(dt);
+            enemy.update(dt,enemy.x, enemy.y);
         });
-        player.update();
+        player.update(dt, player.x,player.y);
     }
 
     function render() {

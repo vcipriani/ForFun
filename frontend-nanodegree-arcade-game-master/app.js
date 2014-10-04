@@ -1,13 +1,9 @@
 // Enemies our player must avoid
-var Enemy = function() {
-    // Variables applied to each of our instances go here,
-    // we've provided one for you to get started
+var Enemy = function(locationArr) {
 
-    // The image/sprite for our enemies, this uses
-    // a helper we've provided to easily load images
     this.sprite = Resources.get('images/enemy-bug.png');
-    this.x = 5;
-    this.y = 5;
+    this.x = locationArr[0];
+    this.y = locationArr[1];
 
 }
 
@@ -27,12 +23,12 @@ Enemy.prototype.render = function() {
 //Player Class
 var Player = function (){
     this.sprite = Resources.get('images/char-boy.png');
-    this.x = 100;
-    this.y = 100;
+    this.x = 200;
+    this.y = 380;
 }
 
-Player.prototype.update = function(dt) {
-  
+//I don't think we really need this. Unclear what it should do unless it is to extract some logic out of handleInput
+Player.prototype.update = function(){ 
 }
 
 Player.prototype.render = function() {
@@ -42,32 +38,30 @@ Player.prototype.render = function() {
 Player.prototype.handleInput = function(dir){
     switch(dir){
         case 'left':
-            this.x--;
+            this.x-=10;
             break;
         case 'right':
-            this.x++;
+            this.x+=10;
             break;
         case 'up':    
-            this.y--;
+            this.y-=10;
             break;
         case 'down':
-            this.y++;
+            this.y+=10;
             break;
         default: alert('Error - hit default case in handleInput')
     }
-    this.render();
-    
 }
 
 //Create empty player and enemy variables. Variables are actually loaded from the init() function in engine.js.  Resoures are not loaded during app.js execution and was getting undefined sprite as a result
 var player = {}; 
 var allEnemies = [];
-
+var enemyLocation = [[5,55],[400,140],[200,220]]
 //Function to generate a given number of enemies
 function generateEnemies(numEnemies){
     var allEnemies = [];
-    for(var i=1; i<=numEnemies; i++){
-        allEnemies.push(new Enemy());
+    for(var i=0; i<numEnemies; i++){
+        allEnemies.push(new Enemy(enemyLocation[i]));
     }
     return allEnemies;
 }
