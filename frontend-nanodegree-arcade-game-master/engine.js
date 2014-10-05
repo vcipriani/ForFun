@@ -12,13 +12,24 @@ var Engine = (function(global) {
 
     function main() {
         var now = Date.now(),
-            dt = (now - lastTime) / 1000.0;
+        dt = (now - lastTime) / 1000.0;
         
-        update(dt);
+        //Run as long gas gameOn = true
+        //If there is a collision false will propogate up to update().
+        var gameOn = true;
+        gameOn = update(dt);
+        
         render();
-
         lastTime = now;
-        win.requestAnimationFrame(main);
+        
+        var session; //variable to assign the AnimationFrame to.  Necessary to stop it later
+        if(gameOn){
+            session = win.requestAnimationFrame(main);
+        }
+        //gameOn=false (ie. collision), then game over!
+        else{
+            gameOver(session);
+        }
     };
 
     function init() {
@@ -29,16 +40,32 @@ var Engine = (function(global) {
         main();
     }
 
+    //Function to control game over
+    function gameOver(session){
+       win.cancelAnimationFrame(session);
+        ctx.font="60px Verdana";
+        ctx.fillStyle = 'red';
+        ctx.fillText("GAME OVER!",65,120)
+    }
+    
+   // function betweenBounds
+    //Test two objects to determine if they have collided
+    //Assume objects have properties- x, y, height, width (where x,y are the top left location)
+
+    
     function update(dt) {
-        updateEntities(dt);
-        // checkCollisions();
+        return updateEntities(dt);
+        //return !checkCollisions();
     }
 
+    
+    
     function updateEntities(dt) {
-        allEnemies.forEach(function(enemy) {
-            enemy.update(dt,enemy.x, enemy.y);
+       return allEnemies.every(function(enemy) {
+            enemy.update(dt,'froggerStyle');
+            return !enemy.checkCollision(player);
         });
-        player.update(dt, player.x,player.y);
+       //player.update();  I choose not to use this as I felt like I was adding abstraction and wasn't sure why
     }
 
     function render() {
@@ -84,5 +111,5 @@ var Engine = (function(global) {
     Resources.onReady(init);
 
     global.ctx = ctx;
-    return {renderAll: renderEntities}
+    
 })(this);
