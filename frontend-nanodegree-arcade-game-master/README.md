@@ -7,6 +7,4 @@ This is a project that HackReactor and Udacity put together.  It was really awes
 -Win/loss tracking  
 -Choose number of enemies  
 -Zombie enemies - change the movement logic so the enemies travel in 2D and at random
-
-**Known Bugs**  
--The game is intended to display "Game Over" or "You Win" based on the outcome.  This stopped working when I was refactoring the control logic in main().  I did not make any significant elsewhere so I am having a hard time figuring out why this quit working.
+-Switch to refactored engine2.js - I refactored the code to be much cleaner; however, the "Game Over"/"Game Won" text quit working when I refactored it.  I haven't determined why as I didn't really change the function that loads the text.
