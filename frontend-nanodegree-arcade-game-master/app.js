@@ -29,8 +29,8 @@ GameCharacter.prototype.render = function() {
     
     //Draws debug boxes if enabled
     if(debugCollision){
-    ctx.fillStyle = "#FF0000";
-    ctx.fillRect(this.x+this.xOff,this.y+this.yOff,this.width,this.height);
+        ctx.fillStyle = "#FF0000";
+        ctx.fillRect(this.x+this.xOff,this.y+this.yOff,this.width,this.height);
     }
 }
 
@@ -67,8 +67,8 @@ GameCharacter.prototype.checkCollision = function(obj){
     
     //Log Collision box locations if debug is enabled
     if(debugCollision){
-    console.log(c);
-    console.log(t);
+        console.log(c);
+        console.log(t);
     }
     
     //Test to see if there is overlap between boxes
@@ -93,26 +93,24 @@ GameCharacter.prototype.checkCollision = function(obj){
 var Enemy = function(locationArr) {
 
     this.sprite = Resources.get('images/enemy-bug.png');
-    this.x = Math.random()*400;//Random x starting location (can also use locationArr[0] for static)
+    this.x = Math.random() * 400 ;//Random x starting location (can also use locationArr[0] for static)
     this.y = locationArr[1]; //See array enemyLocation
-    
-    //Dimensions of collision area (in reference from x,y)
-    this.width = 80;
-    this.height = 65;
-    
-    this.xOff = 9;
-    this.yOff = 80;
+   
     
     //The following assigns the initial direction of the enemy based on the starting location
-    if(locationArr[0]<200){
+    if(this.x<200){
         this.xIncrement = 1;
     }
     else {this.xIncrement = -1}
 }
 
-
+//Set prototype values
 Enemy.prototype = new GameCharacter();
-
+//Dimensions of collision area (in reference from x,y)
+Enemy.prototype.width = 80;
+Enemy.prototype.height = 65;
+Enemy.prototype.xOff = 9;
+Enemy.prototype.yOff = 80;
 
 
 // Update the enemy's position
@@ -147,22 +145,34 @@ Enemy.prototype.update = function(dt, type) {
 var Player = function (){
     this.sprite = Resources.get('images/char-boy.png');
     
-    //Location where we draw sprite
+    //Location where we draw sprite - IF YOU CHANGE THIS ALSO UPDATE resetLocation method
     this.x = 200;
     this.y = 380;
-    
+
     //Offset of where we start the collision area (in reference from sprite start)
     this.xOff = 37;
-    this.yOff = 120;
+    this.yOff = 122;
     
     //Dimensions of collision area
     this.width = 30;
-    this.height= 20;
-}
+    this.height= 17;
+    
+};
 
 
 Player.prototype = new GameCharacter();
 
+Player.prototype.checkWin = function(){
+//12 is the y coordinate of the finish line to win
+    if(this.y<12){return true;}
+    return false;
+}
+
+Player.prototype.resetLocation = function(){
+//Don't like hard coding this but was having trouble creating a method that stored the initial values of x,y for some reason.
+            this.x=200;
+            this.y=380;
+};
 
 Player.prototype.handleInput = function(dir){
     
@@ -183,7 +193,7 @@ Player.prototype.handleInput = function(dir){
     }
 }
 
-//I don't think we really need this. Unclear what it should do unless it is to extract some logic out of handleInput
+//Chose to not implement this.  I suppose the intent is to abstract teh coordinate update out of handleInput, but it seems like an extra layer w/o adding much clarity
 //Player.prototype.update = function(){ 
 //}
 
@@ -218,3 +228,5 @@ document.addEventListener('keyup', function(e) {
 
     player.handleInput(allowedKeys[e.keyCode]);
 });
+
+

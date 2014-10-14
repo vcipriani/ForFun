@@ -1,0 +1,173 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Chatbuilder</title>
+    <script src="http://chatbuilder.hackreactor.com/ChatBuilder.js"></script>
+  </head>
+  <body>
+
+    <h2>Fixed Chat!</h2>
+
+    <input class="draft" type="text"/> <button class="send">Send</button>
+
+    <ul class="messages">
+      
+    </ul>
+
+    <script>
+  
+        //Author: Vincent Cipriani
+        //Email: vince.cipriani@gmail.com
+        
+        //TODOs
+        
+        //Questions
+        //How should I have found the parse connection info?  I looked at the dev console on the HR version.
+
+
+      //Delete Original Functions
+      delete Chat.display;
+      delete Chat.fetch;
+      delete Chat.send;
+
+///////////////////////////////////////////////////////////
+//API/Server integration
+///////////////////////////////////////////////////////////
+
+      //Parse settings
+      Chat.parseConfig = {applicationID: "voLazbq9nXuZuos9hsmprUz7JwM2N0asnPnUcI7r",
+      apiKey: "QC2F43aSAghM97XidJw8Qiy1NXlpL5LR45rhAVAf"};
+
+      //calls the API and accepts a function as a parameter that will be called on success. The data returned will be passed into the callback
+      Chat.fetch = function(func){
+        $.ajax({
+          type: 'GET',
+          headers: {
+            'X-Parse-Application-Id': Chat.parseConfig.applicationID,
+            'X-Parse-REST-API-Key': Chat.parseConfig.apiKey
+          },
+          url: "https://api.parse.com/1/classes/chats?order=createdAt",
+          contentType: "application/json",
+          success: function(data){
+            //loop through the returned data and only keep the text property
+            var msgText = [];
+            for(var i=0; i<data.results.length;i++){
+              msgText.push(data.results[i].text);
+            }
+            //Run function if provided
+            if(func){func(msgText);}
+          }
+        });
+      };
+
+      //POSTs the msg parameter and calls a function on success or error.  The data returned and status will be passed into the callback
+      Chat.send = function(msg,funcSuccess,funcError){
+
+        //Create an object to pass through to the API
+        var post = {text: msg};
+        $.ajax({
+          type: 'POST',
+          headers: {
+            'X-Parse-Application-Id': Chat.parseConfig.applicationID,
+            'X-Parse-REST-API-Key': Chat.parseConfig.apiKey
+          },
+          url: "https://api.parse.com/1/classes/chats",
+          contentType: "application/json",
+          data: JSON.stringify(post), 
+
+          //Success callback will execute function
+          //The data returned by the API and status are passed in parameters
+          //Intentionally did not check for type of funcs.  I would prefer it fails if passed a non-function object.
+          success: function(data,textStatus){
+            if(funcSuccess){
+            funcSuccess(data,textStatus);
+          }
+          },
+
+          //Same as success but execs on error
+          error: function(data, textStatus){
+            if(funcError){
+            funcError(data,textStatus);
+          }
+          }
+
+        });
+      };
+
+///////////////////////////////////////////////////////////
+//App functions
+///////////////////////////////////////////////////////////      
+
+      //Updates the view with the message provided
+      Chat.display = function(msg){
+      $("ul, .messages").append("<li>" +msg + "</li>");
+      };
+
+      //Function to loop through the messages and display one at a time
+      Chat.displayAll = function(msgs){
+          for(var i=0; i<msgs.length;i++){
+            Chat.display(msgs[i]);
+          }
+      };
+
+
+      //Fetches the messages from the server and then displays them on the page.  Has optional "options" parameter ojbect.  Pass {clear:true} if you want the current messages to be cleared before populating.
+      Chat.refreshMsgs = function(options){
+        //Make sure options is defined if not passed
+        options = options || {};
+        if(options.clear){$(".messages").html("");}
+        //Fetch and display messages
+        Chat.fetch(Chat.displayAll);
+      };
+
+
+      //POSTs message to server and updates the view
+       Chat.submitMsg = function(){
+        //Grab user entered text and concatenate the username
+        var msg = Chat.username + ": " +$(".draft").val();
+        //Clear user entered text
+        $(".draft").val("");
+        //Must display message.  It will then be cleared upon message refresh
+        Chat.display(msg);
+        Chat.send(msg); 
+      };
+
+
+      //Starts the app by firing refreshMsgs
+      Chat.start = function(){
+      Chat.refreshMsgs({clear: true});
+      //setInterval does not run at 0, the first run is at 3000
+      //This is why we call above as well
+      setInterval(function(){Chat.refreshMsgs({clear:true})},3000);
+      };
+
+///////////////////////////////////////////////////////////
+//Event Control
+///////////////////////////////////////////////////////////
+
+      //When Send is clicked call:
+      $(".send").click(function(e){
+        e.preventDefault();
+        Chat.submitMsg();
+      });
+
+      //When enter is pressed while the input form is active
+      $(".draft").keypress(function(e){
+          if (e.which==13){
+            e.preventDefault();
+            Chat.submitMsg();
+          }
+      });
+
+///////////////////////////////////////////////////////////
+//Start up the app
+///////////////////////////////////////////////////////////
+
+      Chat.start();
+
+    </script>
+
+  </body>
+</html>

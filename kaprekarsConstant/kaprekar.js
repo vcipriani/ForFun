@@ -78,6 +78,7 @@ var kaprekarsGoldilocks = function(num){
     var count = 0; //Counter for number of iterations
     var stepObj = {steps: []};//Array to store our results
     
+    //Store inital step values
     stepObj.steps.push(logStep(num,count,step1(num)))
         while(num!=6174 && count<10){ //<10 is to prevent infinite loops
             count++;          

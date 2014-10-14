@@ -1,0 +1,53 @@
+
+<html>
+    
+    <head>
+        
+        <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/pure-min.css">
+        <link rel="stylesheet" href="css/styles.css">
+        <script src='js/libs/jquery.1.11.dev.js'></script>
+        <script src="js/libs/underscore.dev.js"></script>
+        <script src="js/libs/backbone.js"></script>
+        <script src='js/libs/moment.min.js'></script>
+        <script src="//www.parsecdn.com/js/parse-1.2.19.min.js"></script>
+        <script src='backbone_pushstate_router.js'></script>
+        <script src='router.js'></script>
+        <script src='js/models/vendor.js'></script>
+        <script src='js/libs/toolbox.js'></script>
+        <script scr="js/libs/ui.js"></script>
+        <script src="js/views/vendor.js"></script>
+    </head>
+    
+    <body>
+     <div id="layout">
+      <a href="#menu" id="menuLink" class="menu-link">
+        <span></span>
+      </a>
+      
+      <div id="menu">
+        <div class="pure-menu pure-menu-open">
+          <a class="pure-menu-heading">ADC</a>
+          <ul>
+            <li><a href="#">Create New PO</a></li>
+            <li><a href="#">Manage Vendors</a></li>
+            <li><a href="#">More</a></li>
+          </ul>
+        </div>
+      </div>
+      
+      <div id="main">
+        
+       
+      </div>
+     </div>
+    </body>
+  
+ <script>
+   $(document).ready(function(){
+     //App is located in router.js
+     //Create instance of our app
+     var app = new App();
+   });
+ </script>
+
+</html>

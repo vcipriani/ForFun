@@ -16,15 +16,14 @@ var app = function() {
         
         //Click Monitoring
           $("#run").click(function (e){
-          //Grab user input
-          e.preventDefault();
-          userEntered = parseInt($('#kaprekarInput').val());
-              console.log(userEntered)
-          //Validate Input and execute program
-          validateInput(userEntered, executeApp);
+                //Grab user input
+                userEntered = parseInt($('#kaprekarInput').val());
+                
+                //Validate Input and execute program
+                validateInput(userEntered, executeApp);
           
-          //Disable page refresh
-          return false;
+                //Disable page refresh
+                return false;
         })
     })()
     
@@ -43,7 +42,7 @@ var app = function() {
         return template(data);
     }
     
-    //Validates that a 4 digit number was entered and runs a function if so
+    //Validates that a 4 digit number was entered and executes a callback function if so
     function validateInput(input,callBack){
         if(input.toString().length===4 && typeof input==="number"){
             return callBack(input);
