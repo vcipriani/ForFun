@@ -1,13 +1,19 @@
 
 #####Intro
+
+[Demo](http://htmlpreview.github.io/?https://github.com/vcipriani/ForFun/blob/master/kaprekarsConstant/index.html)
+
 I was reading the other day and stumbled on Kaprekar's constant (jump to bottom to read about it).  Immediately, I thought this would be a cool project to try and model out using javascript and functional programming. I created a simple SPA that accepts a 4 digit number and prints the iterations on the screen.  This project turned out to be a great microcosm of everything I've been reading studying.  It contains:
 
 -Closure  
 -Recursion  
 -Callbacks  
 -Modules   
+-Input validation
 -jQuery and handlebars,js to handle the DOM.  
 
+#####To Do  
+-Update HTML template to look better and provide more context into the calculation
 
 #####Wikipedia description of Kaprekar's constant below:
 
